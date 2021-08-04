@@ -1,0 +1,723 @@
+:root {
+    --header-background: #fff;
+    --header-color: #000;
+    --header-contacts-color: #414141;
+    --header-icon-stroke-width: 1px;
+    --header-search-clear-background: #838383;
+    --header-desktop-button-color: var(--primary-base-color);
+    --header-height: 93px;
+    --header-nav-height: 63px;
+    --header-total-height:
+        calc(
+            var(--header-height)
+            + var(--offline-notice-height)
+            + var(--demo-notice-height)
+            + env(safe-area-inset-top)
+        );
+
+    @include mobile {
+        --header-height: 93px;
+    }
+    @include desktop {
+        --header-dots-color: #000;
+        --header-height: 50px;
+    }
+
+    @include after-mobile {
+        --header-nav-height: 60px;
+        --header-top-menu-height: 30px;
+        --header-height: calc(var(--header-nav-height) + var(--header-top-menu-height));
+    }
+}
+
+@mixin button-invisible {
+    opacity: 0;
+    padding: 0;
+    width: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+@mixin button-visible {
+    opacity: 1;
+    padding: 0;
+    width: 45px;
+    pointer-events: all;
+    overflow: visible;
+}
+
+@mixin logo-visible {
+    opacity: 1;
+    //display: flex;
+    //justify-content: center;
+    //align-items: center;
+}
+
+.logoAlt {
+    color: $grey;
+    font-weight: 400;
+    line-height: 1;
+    top: unset;
+    left: 0;
+    @include desktop {
+        position: absolute;
+    }
+
+    @include mobile {
+        position: relative;
+    }
+}
+
+.Header {
+    --header-logo-width: 0;
+    --header-logo-height: 0;
+
+    position: fixed;
+    top: var(--demo-notice-height);
+    left: 0;
+    width: 100%;
+    z-index: 100;
+    background-color: var(--header-background);
+    padding-top: env(safe-area-inset-top, 0);
+
+    .Header {
+        &-Switcher {
+            @include mobile {
+                display: none;
+            }
+        }
+        &-Contacts {
+            @include mobile {
+                width: 100%;
+            }
+        }
+        &-TopMenu {
+            @include mobile {
+                padding: 0;
+                .contacts-wrapper {
+                    display: flex;
+                    justify-content: center;
+                    flex-direction: row;
+                    align-items: flex-start;
+                    &_first, &_second {
+                        height: 3rem;
+                        padding: 0 0.5rem;
+                        display: flex !important;
+                        flex-direction: row;
+                        justify-content: flex-start;
+                        align-items: center;
+                        dt {
+                            padding-right: .5rem;
+                        }
+                        dd, dt {
+                            margin-right: 0;
+                            font-size: 1.1rem;
+                            line-height: 1;
+                            padding-bottom: 0.25rem;
+                        }
+                    }
+                    &_first {
+                        width: 50%;
+                        justify-content: flex-start;
+                        &:after {
+                            right: -2.3rem;
+                            height: 4.8rem;
+                        }
+                    }
+                    &_second {
+                        justify-content: flex-end;
+                        width: 54%;
+                        padding-left: 14%;
+                    }
+                }
+            }
+        }
+    }
+
+    @include desktop {
+        //border-bottom: 1px solid var(--primary-divider-color);
+    }
+
+    @at-root .hiddenHeader {
+        @include before-desktop {
+            /* stylelint-disable-next-line length-zero-no-unit */
+            --header-height: 0px;
+        }
+    }
+
+    &-Switcher {
+        @include after-mobile {
+            display: none;
+        }
+    }
+
+    &-Wrapper {
+        margin-bottom: 8rem;
+        height: auto;
+        display: flex;
+        @include mobile {
+            margin-bottom: 0;
+        }
+        @include between-mobile-desktop {
+            margin-bottom: 12rem;
+        }
+    }
+
+    &_isHiddenOnMobile {
+        @include before-desktop {
+            pointer-events: none;
+            opacity: 0;
+        }
+    }
+
+    &_name {
+        &_cart {
+            .Header-Button_type_minicart {
+                @include desktop {
+                    --header-color: var(--primary-base-color);
+                }
+            }
+        }
+
+        &_cart_overlay {
+            .Header-Button_type_minicart,
+            .Header-MinicartTitle {
+                @include after-mobile {
+                    --header-color: var(--primary-base-color);
+                }
+            }
+        }
+
+        &_menu {
+            @include mobile {
+                .Header-Contacts {
+                    display: none;
+                }
+                .Header-Switcher {
+                    width: 100%;
+                }
+            }
+        }
+        &_search {
+            @include mobile {
+                .Header-TopMenu {
+                    display: none;
+                }
+            }
+        }
+
+        &_menu,
+        &_menu_subcategory {
+            .Header-Button_type {
+                &_close {
+                    @include desktop {
+                        @include button-visible;
+                    }
+                }
+
+                &_menu {
+                    @include desktop {
+                        @include button-invisible;
+                    }
+                }
+            }
+        }
+
+        &_customer_account,
+        &_customer_sub_account {
+            .Header-Button_type_account,
+            .Header-MyAccountTitle {
+                @include desktop {
+                    --header-color: var(--header-desktop-button-color);
+                }
+            }
+        }
+
+        &_checkout {
+            .Header-Button,
+            .Header-SearchWrapper,
+            .SearchField {
+                @include desktop {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    &_isCheckout {
+        .Header {
+            &-Button_type_account {
+                display: block;
+            }
+
+            &-Nav {
+                @include desktop {
+                    justify-content: flex-end;
+                }
+            }
+
+            &-MyAccount {
+                @include before-desktop {
+                    position: absolute;
+                    right: 10px;
+                    width: auto;
+                }
+            }
+        }
+
+        .MyAccountOverlay {
+            @include before-desktop {
+                top: var(--header-total-height);
+                height: calc(100vh - var(--header-total-height));
+                position: fixed;
+                width: 100vw;
+            }
+        }
+    }
+
+    &-Banner {
+        background: var(--primary-base-color);
+        color: $white;
+        height: 50px;
+        line-height: 50px;
+        text-align: center;
+        display: block;
+        z-index: 100;
+
+        strong {
+            margin-left: 3px;
+        }
+    }
+
+    &-TopMenu,
+    &-Nav {
+        display: flex;
+        margin: auto;
+        max-width: var(--content-wrapper-width);
+    }
+
+    &-TopMenu {
+        align-items: center;
+        justify-content: space-between;
+        z-index: 21;
+
+        @include wide-desktop {
+            position: absolute;
+            left: 50%;
+            transform: translate(0%, 0);
+            height: var(--header-nav-height);
+            padding: 0;
+        }
+
+        @include small-desktop {
+            position: absolute;
+            left: 50%;
+            transform: translate(0%, 0);
+            height: var(--header-nav-height);
+            padding: 0;
+        }
+
+        @include between-desktop {
+            position: relative;
+            left: initial;
+            transform: initial;
+            height: 4rem;
+            padding: {
+                left: 0;
+                right: 0;
+                top: 0;
+            };
+        }
+
+        @include tablet {
+            position: relative;
+            left: initial;
+            transform: initial;
+            height: 4rem;
+            padding: {
+                left: 0;
+                right: 0;
+                top: 0;
+            };
+        }
+
+        @include mobile {
+            padding: {
+                left: 1.4rem;
+                right: 2.8rem;
+                top: 1.4rem;
+            }
+        }
+    }
+
+    &-Contacts {
+        font-size: 1.2rem;
+        color: var(--header-contacts-color);
+        @include between-desktop {
+            width: 100%;
+        }
+        @include small-desktop {
+            width: 100%;
+        }
+        @include tablet {
+            width: 100%;
+        }
+        span:first-child {
+            margin-right: 20px;
+        }
+    }
+
+    &-Nav {
+        align-items: center;
+        height: var(--header-nav-height);
+        padding: 0 1.2rem;
+        z-index: 20;
+
+        @include mobile {
+            padding: 0 1.4rem;
+        }
+
+        @include desktop {
+            justify-content: flex-end;
+        }
+    }
+
+    &-Button {
+        @include button-invisible;
+
+        cursor: pointer;
+        margin: 0;
+        height: 35px;
+
+        &_isVisible {
+            @include before-desktop {
+                @include button-visible;
+                z-index: 9999;
+            }
+        }
+
+        &_isDisabled {
+            pointer-events: none;
+            opacity: .1;
+        }
+
+        &_type {
+            &_menu,
+            &_account,
+            &_minicart {
+                @include desktop {
+                    @include button-visible;
+                }
+            }
+
+            &_close {
+                @include close-button;
+            }
+
+            &_back {
+                @include back-button;
+            }
+
+            &_menu {
+                @include menu-button;
+
+                @include desktop {
+                    width: 100px;
+                }
+            }
+
+            &_account {
+                @include account-button;
+
+                &.Header-Button_isVisible {
+                    overflow: hidden;
+                }
+            }
+
+            &_search {
+                @include search-icon;
+
+                &.Header-Button_isVisible {
+                    overflow: hidden;
+                }
+            }
+
+            &_minicart {
+                @include before-desktop {
+                    @include minicart-button;
+                }
+
+                @include desktop {
+                    cursor: default;
+                    height: auto;
+                    width: auto;
+                }
+            }
+
+            &_searchClear {
+                @include clear-search-button;
+            }
+
+            &_clear {
+                @include clear-button;
+            }
+
+            &_edit {
+                text-transform: uppercase;
+
+                &.Header-Button_isVisible {
+                    width: 70px;
+                    opacity: .5;
+                }
+            }
+
+            &_share {
+                display: none;
+                @include share-button;
+
+                &.Header-Button_isVisible {
+                    height: 0;
+                    width: 0;
+                    margin-left: 1rem;
+                    opacity: .5;
+                }
+            }
+
+            &_home {
+                @include home-icon;
+            }
+
+            &_ok,
+            &_cancel {
+                font-size: 1.4rem;
+                opacity: .5;
+
+                &.Header-Button_isVisible {
+                    width: 70px;
+                }
+            }
+
+            &_compare {
+                @include button-visible;
+
+                padding: 0;
+                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+
+    &-CompareButtonWrapper {
+        border-right: 2px dotted var(--header-dots-color);
+        margin: 0 20px 0 7px;
+        padding-right: 20px;
+    }
+
+    &-CompareIcon {
+        @include compare-icon(var(--header-color));
+    }
+
+    &-MyAccount {
+        padding: 0 1.5rem 0 2rem;
+        &Wrapper {
+            align-items: center;
+            display: flex;
+        }
+
+        &Title {
+            cursor: pointer;
+            padding-right: .48rem;
+            text-transform: uppercase;
+            color: var(--header-color);
+
+            @include mobile {
+                padding-right: .56rem;
+                display: none;
+            }
+        }
+    }
+
+    &-Minicart {
+        &ButtonWrapper {
+            align-items: center;
+            cursor: pointer;
+            display: flex;
+            height: 4rem;
+            width: 4rem;
+            padding: 0;
+            margin-left: 0;
+
+            @include mobile {
+                margin-left: 2.8rem;
+                padding-right: 2.52rem;
+            }
+
+            @include tablet-portrait {
+                margin-left: 0;
+            }
+        }
+
+        &Title {
+            color: var(--header-color);
+            margin-right: .84rem;
+            text-transform: uppercase;
+
+            @include mobile {
+                margin-right: .98rem;
+            }
+        }
+
+        &Icon {
+            @include minicart-button;
+
+            @include desktop {
+                height: 4rem;
+                width: 4rem;
+                top: 1px;
+            }
+        }
+
+        &ItemCount {
+            line-height: 1.4rem;
+            min-width: 2rem;
+            height: 2rem;
+            background: var(--primary-base-color);
+            border-radius: 3rem;
+            color: var(--header-background);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1rem;
+            padding: 0;
+            position: absolute;
+            z-index: 2;
+            right: -.5rem;
+            bottom: -.5rem;
+            top: initial;
+
+            @include after-mobile {
+                line-height: 1.4rem;
+                min-width: 2rem;
+                height: 2rem;
+                background: var(--primary-base-color);
+                border-radius: 3rem;
+                color: var(--header-background);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1rem;
+                padding: 0;
+                position: absolute;
+                z-index: 2;
+                right: -.5rem;
+                bottom: -.5rem;
+                top: initial;
+            }
+
+            @include mobile {
+                left: initial;
+                right: -0.5rem;
+                top: 3rem;
+                line-height: 1.4rem;
+                min-width: 2rem;
+                width: auto;
+                height: 2rem;
+                background: var(--primary-base-color);
+                border-radius: 3rem;
+            }
+        }
+    }
+
+    &-LogoWrapper {
+        position: absolute;
+        //height: var(--header-logo-height);
+        //width: var(--header-logo-width);
+        width: 100%;
+        height: auto;
+        left: 1.2rem;
+        right: initial;
+        margin: auto;
+        bottom: 0;
+        opacity: 0;
+        overflow: hidden;
+        transition-property: opacity;
+        transition-duration: 200ms;
+
+        @include desktop {
+            @include logo-visible;
+            top: 1.6rem;
+        }
+
+        @include mobile {
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            align-items: center;
+            left:0;
+            top: 0;
+            .logoAlt {
+                padding: 0 0 .1rem 2.4rem;
+                font-size: 1.2rem;
+                color: #313133;
+            }
+        }
+
+        &_isVisible {
+            @include logo-visible;
+        }
+        .Image {
+            max-width: 20rem;
+        }
+    }
+
+    &-Title {
+        opacity: 0;
+        max-width: 0;
+        transition-property: opacity;
+        transition-duration: 200ms;
+
+        text-align: center;
+        font-size: 1.56rem;
+        color: var(--header-color);
+
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+
+        pointer-events: none;
+
+        position: absolute;
+        margin: auto;
+        width: 100%;
+        height: 1.8rem;
+        line-height: 1.8rem;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+
+        @include mobile {
+            font-size: 1.82rem;
+            height: 2.1rem;
+            line-height: 2.1rem;
+        }
+
+        &_isVisible {
+            @include before-desktop {
+                opacity: 1;
+                max-width: calc(100% - 180px);
+            }
+        }
+    }
+
+    a {
+        &:hover,
+        &:focus {
+            @include before-desktop {
+                text-decoration: none;
+            }
+        }
+    }
+}

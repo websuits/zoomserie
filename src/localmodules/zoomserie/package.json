@@ -1,0 +1,43 @@
+{
+    "name": "zoomserie",
+    "version": "0.0.1",
+    "license": "OSL-3.0",
+    "dependencies": {
+        "@scandipwa/scandipwa": "4.2.1",
+        "@scandipwa/scandipwa-scripts": "2.4.8",
+        "react-collapse": "^5.1.0",
+        "react-slick": "^0.28.1",
+        "reactjs-popup": "^2.0.4",
+        "semantic-ui-react": "^2.0.3",
+        "slick-carousel": "^1.8.1",
+        "styled-components": "^5.2.3"
+    },
+    "scandipwa": {
+        "type": "theme",
+        "locales": {
+            "en_US": true
+        },
+        "parentTheme": "@scandipwa/scandipwa",
+        "extensions": {}
+    },
+    "scripts": {
+        "start": "scandipwa-scripts start",
+        "build": "scandipwa-scripts build"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "eslintConfig": {
+        "extends": "@scandipwa"
+    },
+    "proxy": "http://dev.magstart.ro"
+}

@@ -1,0 +1,156 @@
+.titles-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 2.1rem;
+  &__title {
+    font-size: 26px;
+    font-weight: 900;
+  }
+  &__cta {
+    font-size: 14px;
+    font-weight: 400;
+    padding-right: 2rem;
+    &:after {
+      font-family: "Flaticon";
+      content: "\f11c";
+      position: absolute;
+      top: .25rem;
+      bottom: 0;
+      font-weight: 600;
+      right: .5rem;
+      font-size: 10px;
+      transform: rotate(
+                      0.25turn
+      );
+    }
+  }
+}
+
+.item2 {
+  grid-area: right;
+  display: flex;
+  flex-direction: column;
+}
+.item3 { grid-area: left1; }
+.item5 { grid-area: left2; }
+
+.grid-container {
+  display: grid;
+  grid-template-areas:
+    'left1 right'
+    'left2 right';
+  grid-gap: 2.5rem;
+
+  @include mobile {
+    grid-template-areas:
+    'left1'
+    'right'
+    'left2';
+  }
+
+  .SliderWidget {
+    &-Figcaption {
+      position: absolute;
+      left: 0;
+      top: unset;
+      bottom: -1rem;
+      width: 100%;
+      > p {
+        margin-bottom: 0;
+        text-align: left;
+        font-size: 1.4rem;
+        font-weight: bold;
+      }
+    }
+    &-Link {
+      display: block;
+      font-size: 14px;
+      text-align: left;
+      color: #313133;
+      font-weight: 600;
+      padding-top: 1rem;
+    }
+  }
+  .banner {
+    .text {
+      padding: 3rem 2rem;
+      font-weight: bold;
+      font-size: 1.4rem;
+      transform: unset;
+      position: absolute;
+      bottom: 0;
+      text-align: left;
+    }
+  }
+}
+
+.home {
+  &__slider {
+    &--categories {
+      @include desktop {
+        padding-bottom: 0;
+      }
+      .RenderWhenVisible {
+        max-width: 93%;
+        @include mobile {
+          max-width: 100%;
+        }
+        .slick-next {
+          left: 103%;
+          top: 50%;
+          transform: translate(-50%, -150%);
+          &:before {
+            font-size: 3rem;
+          }
+        }
+        > div {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          height:100%;
+          > div {
+            margin: 0;
+            max-width: 74rem;
+            > span[type="next"] {
+              position:absolute;
+            }
+          }
+        }
+      }
+    }
+  }
+  &__static {
+    &--block {
+      .widget.block {
+        height: 100%;
+        max-height: 53.5rem;
+      }
+    }
+  }
+  &__widget {
+    &--products {
+      .ProductListWidget-Page {
+        margin-top: 0;
+        grid-template-columns: repeat(3, 1fr);
+      }
+      @include desktop {
+        .ProductCard-FigureReview {
+          max-height: 19rem;
+          img {
+            max-height: 19rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.grid-container > div {
+  text-align: center;
+  padding: 12px 0;
+  font-size: 30px;
+  overflow: hidden;
+}

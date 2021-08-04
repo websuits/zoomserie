@@ -1,0 +1,583 @@
+:root {
+    --cart-item-heading-color: #000;
+    --cart-item-subheading-color: #888;
+    --cart-item-option-color: #adadad;
+    --cart-item-background: #fff;
+    --cart-item-actions-background: var(--secondary-base-color);
+    --cart-item-actions-color: #000;
+    --cart-item-divider-color: var(--expandable-content-divider-color);
+    --cart-item-action-border: var(--cart-item-divider-color);
+    --cart-swipe-to-delete-color: #fff;
+}
+
+.CartItem {
+    --header-color: var(--cart-item-actions-color);
+
+    border-bottom: 1px solid var(--cart-item-divider-color);
+
+    &-OutOfStock {
+        font-weight: bold;
+    }
+
+    &-Link {
+        color: inherit;
+
+        @include mobile {
+            max-width: 8.4rem;
+        }
+
+        @include desktop {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            padding: 1.4rem;
+        }
+
+        &:hover {
+            text-decoration: none;
+        }
+    }
+
+    &-Option,
+    & {
+        padding-left: 0;
+        margin-bottom: 0;
+
+        &::before {
+            content: none;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+
+    &-Content {
+        display: flex;
+        flex-direction: row;
+
+        @include mobile {
+            max-width: 100%;
+            width: 100%;
+            padding-left: 2.6rem;
+            justify-content: space-between;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        &_isLikeTable {
+            @include after-mobile {
+                padding-bottom: 0;
+                min-height: 6rem;
+                align-items: center;
+                justify-content: flex-start;
+                width: 100%;
+                padding-left: 2.4rem;
+                max-width: 100%;
+            }
+        }
+    }
+
+    &-Options-Elements {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @include desktop {
+            margin-top: 1rem;
+            height: 2.4rem;
+            width: 100%;
+            overflow: hidden;
+        }
+    }
+
+    &-Wrapper {
+        display: grid;
+        grid-template-columns: 7.2rem auto;
+        grid-gap: 1.2rem;
+        padding: 1.2rem;
+        background: var(--cart-item-background);
+
+        @include mobile {
+            display: flex;
+            flex-direction: column;
+            padding: 1.4rem;
+        }
+
+        @include after-mobile {
+            grid-template-columns: 84px auto;
+        }
+    }
+
+    &-Options {
+        display: flex;
+
+        &_isLikeTable {
+            @include after-mobile {
+                flex-grow: 1;
+            }
+        }
+        @include desktop {
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        @include mobile {
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    &-Option {
+        font-size: 1rem;
+        text-transform: uppercase;
+        border: 1px solid var(--cart-item-option-color);
+        color: var(--cart-item-option-color);
+        padding: 3px 5px;
+        margin: 0 .7rem 0 0;
+    }
+
+    &-ItemOptionsWrapper {
+        @include mobile {
+            margin-top: .7rem;
+        }
+
+        &_isLikeTable {
+            @include desktop {
+                max-width: 100%;
+            }
+        }
+    }
+
+    &-ItemOption {
+        display: flex;
+        margin-bottom: .6rem;
+        margin-right: .6rem;
+
+        @include mobile {
+            margin-bottom: .7rem;
+            margin-right: .7rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            text-align: left;
+        }
+    }
+
+    &-ItemOptionValues {
+        @include mobile {
+            width: 100%;
+        }
+    }
+
+    &-ItemOptionLabel {
+        align-self: center;
+        font-weight: bold;
+        margin-right: .6rem;
+
+        @include mobile {
+            margin-right: .7rem;
+            width: 100%;
+        }
+    }
+
+    &-Heading,
+    &-SubHeading {
+        font-size: 1.4rem;
+        line-height: 1.2;
+        flex-grow: 2;
+        width: 100%;
+        margin-bottom: .6rem;
+
+        @include mobile {
+            max-width: 95%;
+            margin-bottom: .2rem;
+            margin-top: .2rem;
+        }
+    }
+
+    &-Heading {
+        color: var(--cart-item-heading-color);
+        @include desktop {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        @include mobile {
+            width: 100%;
+            max-width: 8.4rem;
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+    }
+
+    &-SubHeading {
+        color: var(--cart-item-subheading-color);
+    }
+
+    &-Picture {
+        align-self: center;
+
+        @include mobile {
+            max-width: 8.4rem;
+        }
+
+        @include desktop {
+            width: 10rem;
+            height: 10rem;
+        }
+
+        > img {
+            @include mobile {
+                max-width: 8.4rem;
+            }
+
+            @include desktop {
+                max-width: 10rem;
+            }
+        }
+
+        @include mobile {
+            height: 100%;
+        }
+    }
+
+    &-Price {
+        flex-grow: 1;
+        text-align: right;
+        margin-bottom: 0;
+
+        > span {
+            font-size: 1.4rem;
+            color: #fff;
+            background: #ED4C1C;
+            padding: 1.2rem 1.6rem;
+            font-weight: 400;
+        }
+
+        @include after-mobile {
+            font-size: 1.6rem;
+            display: flex;
+            justify-content: flex-end;
+            align-items: flex-end;
+            flex-direction: column;
+        }
+
+        &_isLikeTable {
+            top: 0;
+
+            @include tablet {
+                width: 100%;
+                padding-left: 2.4rem;
+                height: 10rem;
+                max-width: 16rem;
+                right: 0;
+                bottom: 0;
+                top: 0;
+                margin: 0;
+            }
+
+            @include desktop {
+                width: 24rem;
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                margin: auto;
+                right: 0;
+                height: max-content;
+            }
+
+            &:last-of-type {
+                @include after-mobile {
+                    margin: auto;
+                }
+            }
+        }
+
+        @include mobile {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-end;
+        }
+    }
+
+    &-Actions {
+        opacity: 0;
+        padding: 0;
+        max-height: 0;
+        pointer-events: none;
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-direction: row-reverse;
+
+        will-change: max-height, opacity, padding;
+        transition-property: padding, max-height;
+        transition-duration: 200ms;
+
+        @include after-mobile {
+            position: absolute;
+            bottom: 1.2rem;
+            right: 0;
+            width: calc(100% - 11.3rem);
+            height: 3.6rem;
+        }
+
+        &_isLikeTable {
+            @include desktop {
+                align-items: center;
+                justify-content: flex-start;
+                width: 100%;
+                padding-left: 2.4rem;
+                height: 10rem;
+            }
+
+            @include tablet {
+                width: auto;
+            }
+
+            @include after-tablet {
+                max-width: 23rem;
+                right: 1.4rem;
+            }
+
+            @include after-mobile {
+                right: 1rem;
+                bottom: 0;
+                margin: 0;
+                width: auto;
+                justify-content: center;
+            }
+
+            > * {
+                margin: 0 5px;
+
+                @include tablet-portrait {
+                    margin: unset;
+                }
+            }
+        }
+
+        &_isEditing {
+            transition-property: padding, max-height, opacity;
+            opacity: 1;
+            max-height: 6rem;
+            pointer-events: all;
+            top: 3rem;
+            padding: 0;
+        }
+
+        &::before {
+            top: 0;
+            z-index: 1;
+            border-color: var(--cart-item-action-border) transparent transparent transparent;
+        }
+    }
+
+    &-OutOfStock {
+        @include mobile {
+            margin-bottom : 0;
+            padding: 0 1rem;
+            line-height: 1.5rem;
+        }
+    }
+
+    &-Delete {
+        width: 4rem;
+        height: 4rem;
+        margin: 0;
+        float: left;
+        overflow: visible;
+        display: flex;
+        &:before {
+            content: "X";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            color: #F73A18;
+            font-size: 2rem;
+            line-height: 1;
+            font-weight: 600;
+            transform: translate(-50%, -50%);
+        }
+
+        @include mobile {
+            position: relative;
+            overflow: hidden;
+            display: block;
+            margin-left: 1.5rem;
+        }
+    }
+
+    &-DeleteButtonText {
+        @include desktop {
+            padding-left: 2rem;
+        }
+        @include tablet {
+            display: none;
+        }
+        @include mobile {
+            display: none;
+        }
+    }
+
+    & &-Qty { // hack to obtain required specificity
+        margin-top: 0;
+        display: flex;
+
+        @include mobile {
+            align-items: center;
+            height: 4rem;
+            width: 4rem;
+            position: relative;
+            &:before {
+                position: absolute;
+                content: '';
+                background: #313133;
+                height: 3.8rem;
+                width: 4rem;
+                border: 1px solid transparent;
+                border-radius: 1rem;
+                right: -2rem;
+            }
+        }
+
+        input {
+            background: transparent;
+            border: 0;
+            color: var(--cart-item-actions-color);
+            height: 28px;
+            font-weight: 400;
+            text-align: center;
+            padding: 0;
+            order: 2;
+            width: 44px;
+            min-width: 44px;
+            font-size: 1.6rem;
+            top: 1px;
+
+            @include mobile {
+                border-radius: 1rem;
+                position: absolute;
+                top: 0;
+                left: 0;
+                height: 4rem;
+                width: 4rem;
+                border: 1px solid #313133;
+                background: #fff;
+            }
+        }
+
+        button {
+            position: relative;
+            order: 1;
+            border: 1px solid var(--cart-item-actions-color);
+            width: 28px;
+            height: 28px;
+            top: 0;
+            left: 0;
+            color: var(--cart-item-actions-color);
+            background: transparent;
+
+            &:first-of-type {
+                left: 0;
+                order: 3;
+                @include mobile {
+                    position: absolute;
+                    top: .25rem;
+                    right: -2rem;
+                    left: initial;
+                    border: 0;
+                    color: #fff;
+                    &:before,&:after {
+                        background-color: #fff;
+                    }
+                }
+            }
+
+            &:last-of-type {
+                right: 0;
+                order: 1;
+                @include mobile {
+                    position: absolute;
+                    bottom: .25rem;
+                    right: -2rem;
+                    left: initial;
+                    border: 0;
+                    top: initial;
+                    color: #fff;
+                    &:before,&:after {
+                        background-color: #fff;
+                    }
+                }
+            }
+
+            span {
+                @include mobile {
+                    top: -2.2px;
+                }
+            }
+
+            @include mobile {
+                width: 18px;
+                height: 18px;
+            }
+        }
+    }
+
+    &-SwipeToDeleteRightSide {
+        height: 100%;
+        font-weight: 600;
+        color: var(--cart-swipe-to-delete-color);
+    }
+
+    &-QuantityWrapper {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        @include after-mobile {
+            width: auto;
+        }
+        @include mobile {
+            max-width: calc(100% - 9.8rem);
+            justify-content: flex-end;
+            padding-right: 2.6rem;
+        }
+    }
+
+    &-QuantityText {
+        margin-right: 10px;
+        @include mobile {
+            display: none;
+        }
+
+        @include after-mobile {
+            display: none;
+        }
+    }
+
+    &-HeadingWrapper {
+        max-width: 8.4rem;
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        @include mobile {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+
+    .ProductPrice-SubPrice {
+        font-size: .6em;
+        font-weight: 300;
+    }
+}

@@ -1,0 +1,17 @@
+.ProductPage {
+    @include tablet {
+        padding-top: 0;
+        margin-top: 0;
+    }
+
+    @include mobile {
+        padding-bottom: 75px;
+    }
+
+    &-ProductCompareButtonWrapper {
+        display: none;
+        position: absolute;
+        top: 0;
+        right: 1.4rem;
+    }
+}

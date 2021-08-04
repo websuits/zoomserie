@@ -1,0 +1,208 @@
+:root {
+    --footer-height: calc(var(--footer-content-height) + var(--footer-copyright-height));
+    --footer-content-height: 320px;
+    --footer-copyright-height: 50px;
+}
+
+.Footer {
+    $column-count: 4;
+
+    @include mobile {
+        margin-bottom: var(--navigation-tabs-height);
+    }
+
+    &-CopyrightContentWrapper {
+        background-color: $default-secondary-base-color;
+    }
+
+    &-Crafted {
+        display: flex;
+        img {
+            max-height: 2rem;
+            width: auto;
+            padding-right: .5rem;
+        }
+        @include mobile {
+            width: 100%;
+            flex-direction: row;
+            justify-content: space-between;
+            padding-bottom: 1.5rem;
+        }
+    }
+
+    &-CopyrightContent {
+        padding: 1rem 1.9rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        min-height: var(--footer-copyright-height);
+        @include mobile {
+            flex-direction: column;
+        }
+        @include after-mobile {
+            padding: 1.5rem 1.2rem;
+        }
+    }
+
+    &-Copyright {
+        @include mobile {
+            width: 100%;
+            text-align:center;
+            padding-bottom: 1.5rem;
+        }
+        @include desktop {
+            max-width: 34rem;
+        }
+        font-size: 1.4rem;
+        text-align: left;
+
+        a {
+            color: inherit;
+        }
+    }
+
+    &-Powered {
+        font-size: 1.2rem;
+
+        a {
+            color: inherit;
+        }
+    }
+
+    &-Content {
+        background-color: var(--secondary-base-color);
+    }
+
+    &-Column {
+        @include after-mobile {
+            padding-right: 0;
+            max-width: calc(100% / 4);
+        }
+        @include mobile {
+            margin-bottom: 30px;
+            width: 50%;
+            max-width: 100%;
+        }
+        &:not(:last-of-type) {
+            @include after-mobile {
+                padding-right: 20px;
+                max-width: calc(100% / #{ $column-count });
+            }
+        }
+
+        &:last-of-type {
+            &:after {
+                display: none;
+            }
+        }
+        &:nth-child(2n + 1) {
+            padding-right: 1rem;
+        }
+        &:nth-child(2n) {
+            padding-left: 1rem;
+        }
+        @include after-tablet {
+            &:after {
+                position: absolute;
+                transform: translate(-50%, -50%);
+                left: 115%;
+                top: 10rem;
+                content: "";
+                width: .1rem;
+                height: 70%;
+                background: #EAEAEA;
+            }
+        }
+    }
+
+    &-Columns {
+        display: flex;
+        height: 100%;
+        padding: 2rem 1.9rem;
+        justify-content: space-between;
+
+        @include mobile {
+            flex-direction: row;
+            align-items: flex-start;
+            text-align: left;
+            flex-flow: row wrap;
+            justify-content: flex-start;
+        }
+
+        @include after-mobile {
+            padding: 2rem 1.2rem 5rem 1.2rem;
+        }
+
+        @include tablet {
+            padding: {
+                left: 30px;
+                right: 30px;
+            };
+        }
+    }
+
+    &-ColumnTitle {
+        margin: 0 0 15px;
+        font-size: 1.4rem;
+        font-weight: 900;
+
+        @include after-mobile {
+            margin: 0 0 20px;
+        }
+    }
+
+    &-ColumnContent {
+        display: flex;
+        flex-direction: column;
+        font-size: 1.4rem;
+        color: $grey;
+        line-height: 2.3rem;
+
+        &_direction_horizontal {
+            flex-direction: row;
+
+            @include mobile {
+                justify-content: center;
+            }
+        }
+
+        a + a {
+            margin-left: 0;
+            margin-bottom: 1.5rem;
+        }
+    }
+
+    &-ColumnItem {
+        color: inherit;
+        margin-bottom: 12px;
+        font-size: 1.4rem;
+
+        &:last-of-type {
+            margin: 0;
+        }
+
+        &_type_image {
+            width: 25px;
+
+            &:not(:last-of-type) {
+                margin-right: 20px;
+            }
+        }
+    }
+
+    &-CmsBlockWrapper {
+        .CmsBlock-Wrapper {
+            flex: 1;
+        }
+
+        .ContentWrapper .Footer-Columns {
+            padding: 0;
+        }
+
+        .Footer-Column_isNewsletter {
+            @include desktop {
+                padding-left: 100px;
+            }
+        }
+    }
+}
