@@ -3,12 +3,15 @@
     "version": "0.0.1",
     "license": "OSL-3.0",
     "dependencies": {
+        "@bss/checkout-fields": "file:packages/@bss/checkout-fields",
+        "@craco/craco": "^3.3.1",
         "@scandipwa/eslint-config": "0.1.25",
         "@scandipwa/scandipwa": "4.5.1",
         "@scandipwa/scandipwa-scripts": "2.4.9",
         "@tilework/mosaic": "0.1.4",
         "@tilework/mosaic-craco": "0.0.3",
         "react-collapse": "^5.1.0",
+        "react-datepicker": "^4.1.1",
         "react-slick": "^0.28.1",
         "reactjs-popup": "^2.0.4",
         "semantic-ui-react": "^2.0.3",
@@ -22,11 +25,15 @@
             "ro_RO": true
         },
         "parentTheme": "@scandipwa/scandipwa",
-        "extensions": {}
+        "extensions": {
+            "@bss/checkout-fields": true
+        }
     },
     "scripts": {
         "start": "scandipwa-scripts start",
-        "build": "scandipwa-scripts build"
+        "build": "scandipwa-scripts build",
+        "postinstall": "scandipwa-scripts link",
+        "postupdate": "scandipwa-scripts link"
     },
     "browserslist": {
         "production": [

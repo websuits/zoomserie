@@ -1,0 +1,7 @@
+.Checkout-CustomFields{
+    input:not([type='radio'],[type='checkbox']), 
+    textarea, 
+    select{
+        width: 100%;
+    }
+}

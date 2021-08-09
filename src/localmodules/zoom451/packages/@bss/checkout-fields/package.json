@@ -1,0 +1,19 @@
+{
+    "name": "@bss/checkout-fields",
+    "version": "1.0.0",
+    "description": "The Elightwalk BSS Checkout Fields",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "Elightwalk Technology",
+    "license": "ISC",
+    "scandipwa": {
+        "type": "extension"
+    },
+    "dependencies": {
+        "@duetds/date-picker": "^1.4.0",
+        "moment": "^2.29.1",
+        "react-date-range": "^1.3.0"
+    }
+}

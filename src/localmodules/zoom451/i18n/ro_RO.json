@@ -68,7 +68,7 @@
     "Tax:": "Taxe",
     "Order total details": "Detalii total comandă",
     "Order total:": "Total comandă",
-    "Remove out of stock products from cart": "Scoate din coș produsele care nu sunt in stoc" ,
+    "Remove out of stock products from cart": "Scoate din coș produsele care nu sunt in stoc",
     "Secure checkout": "Checkout securizat",
     "Continue shopping": "Continuă cumpărăturile",
     "Summary": "Sumar",
@@ -441,5 +441,13 @@
     "Error fetching Recently Viewed Products Information!": null,
     "Error fetching Slider!": null,
     "Sample": null,
-    "Slide crumb": null
+    "Slide crumb": null,
+    "Surb": null,
+    "Company": null,
+    "Order Comment": null,
+    "Order Time": null,
+    "Delivery Date": null,
+    "9.00 - 13.00": null,
+    "14.00 - 15.00": null,
+    "Order Date": null
 }

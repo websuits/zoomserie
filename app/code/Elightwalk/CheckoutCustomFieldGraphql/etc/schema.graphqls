@@ -1,0 +1,27 @@
+type Query {
+    getOrderTimeBssCheckoutCustomField(
+        date: String!
+    ): [OrderTime] @resolver(class: "\\Elightwalk\\CheckoutCustomFieldGraphql\\Model\\Resolver\\OrderTimes")
+}
+
+type Mutation {
+    updateCustomCheckoutFields (
+        cart_id: String
+        company: String!
+        order_date: String! 
+        order_time: Int!
+        order_comment: String! 
+    ): CustomCheckoutFieldsResponse @resolver(class: "\\Elightwalk\\CheckoutCustomFieldGraphql\\Model\\Resolver\\UpdateCustomCheckoutFields")
+}
+
+type OrderTime {
+    value_id: String
+    value: String
+    is_default: Boolean
+}
+
+type CustomCheckoutFieldsResponse {
+    status: Boolean
+    message: String
+}
+
