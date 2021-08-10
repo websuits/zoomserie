@@ -10,7 +10,7 @@ export class CheckoutCustomFieldGraphqlQuery {
 
     _getOrderTimeBssCheckoutCustomField() {
         return [
-            'value_id',
+            'label',
             'value',
             'is_default'
         ]
@@ -21,7 +21,7 @@ export class CheckoutCustomFieldGraphqlQuery {
             .addArgument('cart_id', 'String', params.cart_id)
             .addArgument('company', 'String!', params.company)
             .addArgument('order_date', 'String!', params.order_date)
-            .addArgument('order_time', 'Int!', params.order_time)
+            .addArgument('order_time', 'String!', params.order_time)
             .addArgument('order_comment', 'String!', params.order_comment)
             .addFieldList(this._CustomCheckoutFieldsResponse());
     }

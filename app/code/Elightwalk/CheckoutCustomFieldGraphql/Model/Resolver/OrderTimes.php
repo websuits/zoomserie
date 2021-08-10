@@ -17,7 +17,6 @@ use Magento\Framework\GraphQl\Query\Resolver\ValueFactory;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Bss\CheckoutCustomField\Api\Data\AttributeInterface;
-use Bss\CheckoutCustomField\Api\Data\AttributeOptionInterface;
 
 /**
  * @inheritdoc
@@ -26,7 +25,7 @@ class OrderTimes implements ResolverInterface
 {
     const ORDER_TIME = 'order_time';
 
-    const XML_CUSTOM_FIELD_ORDER_PROCESSING_HOURS = 'custom_field\general\order_processing_hours';
+    const XML_CUSTOM_FIELD_ORDER_PROCESSING_HOURS = 'custom_field/general/order_processing_hours';
 
     /**
      * @param ProductDataProvider $productDataProvider
@@ -35,12 +34,14 @@ class OrderTimes implements ResolverInterface
      */
     public function __construct(
         \Bss\CheckoutCustomField\Model\ResourceModel\Attribute\Collection $attributeCollection,
-        \Bss\CheckoutCustomField\Model\ResourceModel\AttributeOption\Collection $attributeOptionsCollection,
-        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Bss\CheckoutCustomField\Block\Express\Review $reviewBlock,
+        \Magento\Framework\Stdlib\DateTime\TimezoneInterface $date
     ) {
         $this->attributeCollection = $attributeCollection;
-        $this->attributeOptionsCollection = $attributeOptionsCollection;
         $this->scopeConfig = $scopeConfig;
+        $this->reviewBlock = $reviewBlock;
+        $this->date = $date;
     }
 
     /**
@@ -54,46 +55,54 @@ class OrderTimes implements ResolverInterface
 
         $date = $args['date'];
 
-        file_put_contents(BP . '/var/log/fulllog.log', print_r($date,true)."\n", FILE_APPEND);
-
         if(date('Y-m-d', strtotime($date)) < date('Y-m-d')) {
             throw new GraphQlInputException(__("You shouldn't select past date."));
         }
 
         $storeId = (int) $context->getExtensionAttributes()->getStore()->getId();
-        $storeId=1;
-        file_put_contents(BP . '/var/log/fulllog.log', print_r('storeId => '.$storeId,true)."\n", FILE_APPEND);
 
         $response = [];
 
         $attribute = $this->attributeCollection
             ->addFieldToFilter(AttributeInterface::BSS_ATTRIBUTE_CODE, self::ORDER_TIME)
-            ->addFieldToFilter(AttributeInterface::BSS_STORE_ID, ['in' => [$storeId]])
             ->addFieldToFilter(AttributeInterface::BSS_VISIBLE_FRONTEND, 1);
 
         if (count($attribute)) {
             $attribute = $attribute->getFirstItem();
-            $options = $this->attributeOptionsCollection
-                ->addFieldToFilter(AttributeOptionInterface::BSS_ATTRIBUTE_ID, $attribute->getAttributeId())
-                ->addFieldToFilter(AttributeOptionInterface::BSS_STORE_ID, $storeId);
+            if($this->checkAttributeInStore($attribute->getStoreId(), $storeId)) {
 
-            if(date('Y-m-d', strtotime($date)) != date('Y-m-d')) {
-                return $options;
+                $options=$this->reviewBlock->getOptions($attribute);
+                $fieldValue = $this->reviewBlock->getDefaultValue($attribute);
+
+                if(count($options) && count($fieldValue)) {
+                    foreach($options as $key => $value){
+                        $options[$key]['is_default'] = false;
+                        if($value['value'] == $fieldValue[0]) {
+                            $options[$key]['is_default'] = true;
+                        }
+                    }
+                }else if(count($options)){
+                    foreach($options as $key => $value){
+                        $options[$key]['is_default'] = false;
+                    }
+                }
+
+                if(date('Y-m-d', strtotime($date)) != date('Y-m-d')) {
+                    return $options;
+                }
+
+                $response = $this->getAvailabelOptions($options, $storeId);
             }
-
-            $response = $this->getAvailabelOptions($options, $storeId);
+            
         }
-
-        file_put_contents(BP . '/var/log/fulllog.log', print_r(count($response),true)."\n", FILE_APPEND);
 
         return $response;
     }
 
     private function getAvailabelOptions($options, $storeId)
     {
-
         $response = [];
-        $currentHours = date('H');
+        $currentHours = $this->date->date()->format('H');;
         $orderProcessingHours = $this->scopeConfig->getValue(
             self::XML_CUSTOM_FIELD_ORDER_PROCESSING_HOURS, 
             \Magento\Store\Model\ScopeInterface::SCOPE_STORE, 
@@ -104,11 +113,20 @@ class OrderTimes implements ResolverInterface
 
         if (count($options)) {
             foreach ($options as $option) {
-                if ((int) $option->getValue() >= $hours) {
+                if ((int) $option['label'] >= $hours) {
                     $response[] = $option;
                 }
             }
         }
+        
         return $response;
     }
+
+    private function checkAttributeInStore($attributeStoreIds, $storeId) {
+        $storeIds= explode(',', $attributeStoreIds);
+        if(in_array($storeId, $storeIds)){
+            return true;
+        }
+        return false;
+    }   
 }

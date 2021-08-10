@@ -20,7 +20,7 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
     TEXTAREA_TYPE
 } from 'Component/Field/Field.config';
 
-
+import moment from 'moment';
  
  import './CheckoutCustomField.style';
  
@@ -30,50 +30,69 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
     }
 
     renderCompanyField() {
-        const {company, setCompany}=this.props
+        const {company, setCompany, companyError}=this.props
         return (
+            <>
             <Field
+                id="company"
                 type="text"
                 label={ __('Company') }
-                id="company"
                 name="company"
                 value={company}
                 onChange={setCompany}
+                validation={ ['notEmpty'] }
+                validateSeparately
             />
+            {companyError!=""&&
+                <p block="Field" elem="Message">{companyError}</p>
+            }
+            </>
         );
     }
 
     renderOrderCommentField() {
-        const {orderComment, setOrderComment}=this.props
+        const {orderComment, setOrderComment, orderCommentError}=this.props
         return (
+            <>
             <Field
                 type={TEXTAREA_TYPE}
                 label={ __('Order Comment') }
                 id="order-comment"
                 name="order_comment"
+                validation={ ['notEmpty'] }
                 value={orderComment}
                 onChange={setOrderComment}
+                validateSeparately
             />
+            {orderCommentError!=""&&
+                <p block="Field" elem="Message">{orderCommentError}</p>
+            }
+            </>
         );
     }
 
     renderOrderDateField() {
-        const {setOrderDate, orderDate}=this.props
+        const {setOrderDate, orderDate, minDate }=this.props
         return (
             <div block="DateFieldCol" mix={ { block: 'Field'} }>
                 <label htmlFor="date" block="Field" elem="Label">{ __('Order Date') }</label>
                 <Calendar
-                    minDate={new Date()}
-                    date={orderDate}
+                    minDate={this.makeFormatDateForReactDateRange(minDate)}
+                    date={this.makeFormatDateForReactDateRange(orderDate)}
                     onChange={setOrderDate}
                 />
             </div>
         );
     }
 
+    makeFormatDateForReactDateRange(data) {
+        return new Date(moment(data))
+    }
+
     renderOrderTimeField() {
-        const {orderTimeOptions, selectedOrderTime, updateOrdertime}=this.props
+        const {orderTimeOptions, selectedOrderTime, setOrdertime, selectedOrderTimeError}=this.props
         return (
+            <>
             <Field
             id="order_time"
             name="order_time"
@@ -83,18 +102,27 @@ import 'react-date-range/dist/theme/default.css'; // theme css file
             mix={ { block: 'OrderTime', elem: 'Select' } }
             selectOptions={ orderTimeOptions }
             value={selectedOrderTime}
-            onChange={updateOrdertime}
+            onChange={setOrdertime}
+            validateSeparately
             />
+            {selectedOrderTimeError!=""&&
+                <p block="Field" elem="Message">{selectedOrderTimeError}</p>
+            }
+            </>
         );
     }
     
     render() {
         return (
             <div block="Checkout" elem="CustomFields">
-                { this.renderCompanyField() }
-                { this.renderOrderCommentField() }
-                { this.renderOrderDateField() }
-                { this.renderOrderTimeField() }
+                <div block="FieldForm CheckoutAddressForm">
+                    <div block="FieldForm-Fields">
+                        { this.renderCompanyField() }
+                        { this.renderOrderCommentField() }
+                        { this.renderOrderDateField() }
+                        { this.renderOrderTimeField() }
+                    </div>
+                </div>
             </div>
         );
     }
