@@ -95,14 +95,26 @@ export class SliderWidgetComponent extends SrcSliderWidget {
             rows: 1,
             centerMode: false,
             infinite: false,
-            arrows: true
+            arrows: true,
+            cssEase: 'linear'
         };
 
         return (
-            // eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction
-            <Slider { ...settings }>
-                { slides.map(this.renderSlide) }
-            </Slider>
+            // eslint-disable-next-line react/jsx-no-comment-textnodes
+            <>
+                { /* eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions */ }
+                <div
+                  /* eslint-disable-next-line react/jsx-no-bind */
+                  onClick={ () => this.slider.slickGoTo(0) }
+                  className="SliderWidget-JumpFirst"
+                >
+                    { __('Jump to first slide') }
+                </div>
+                { /* eslint-disable-next-line @scandipwa/scandipwa-guidelines/jsx-no-props-destruction,no-return-assign */ }
+                <Slider ref={ (slider) => (this.slider = slider) } { ...settings }>
+                    { slides.map(this.renderSlide) }
+                </Slider>
+            </>
         );
     }
 }
