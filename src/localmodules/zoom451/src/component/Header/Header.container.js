@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 
-import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
+// import { CUSTOMER_ACCOUNT_OVERLAY_KEY } from 'Component/MyAccountOverlay/MyAccountOverlay.config';
 import { DEFAULT_STATE_NAME } from 'Component/NavigationAbstract/NavigationAbstract.config';
 import { SHARE_WISHLIST_POPUP_ID } from 'Component/ShareWishlistPopup/ShareWishlistPopup.config';
 import { CHECKOUT_URL } from 'Route/Checkout/Checkout.config';
@@ -342,8 +342,8 @@ export class HeaderContainer extends SrcHeaderContainer {
 
     onMyAccountButtonClick() {
         const {
-            showOverlay,
-            setNavigationState,
+            // showOverlay,
+            // setNavigationState,
             isSignedIn
         } = this.props;
 
@@ -355,14 +355,9 @@ export class HeaderContainer extends SrcHeaderContainer {
             return;
         }
 
-        this.setState({ showMyAccountLogin: true }, () => {
-            showOverlay(CUSTOMER_ACCOUNT_OVERLAY_KEY);
-            setNavigationState({
-                name: CHECKOUT_ACCOUNT,
-                title: 'Sign in',
-                onCloseClick: this.closeOverlay
-            });
-        });
+        if (!isSignedIn && !isSignedInWithToken()) {
+            history.push({ pathname: appendWithStoreCode('/customer/account/create') });
+        }
     }
 
     onMyAccountOutsideClick() {
