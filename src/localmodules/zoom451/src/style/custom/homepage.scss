@@ -193,6 +193,13 @@
 
     &__widget {
         &--products {
+            .NewProducts {
+                > li {
+                    max-width: 33%;
+                    width: 100%;
+                    display: inline-block;
+                }
+            }
             .ProductListWidget-Page {
                 margin-top: 0;
                 grid-template-columns: repeat(3, 1fr);

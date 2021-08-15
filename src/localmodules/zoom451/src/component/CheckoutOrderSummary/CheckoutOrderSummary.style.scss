@@ -1,0 +1,326 @@
+/**
+ * ScandiPWA - Progressive Web App for Magento
+ *
+ * Copyright © Scandiweb, Inc. All rights reserved.
+ * See LICENSE for license details.
+ *
+ * @license OSL-3.0 (Open Software License ("OSL") v. 3.0)
+ * @package scandipwa/base-theme
+ * @link https://github.com/scandipwa/base-theme
+ */
+.DeliveryAreas {
+    &-Button {
+        background-color: rgb(255, 240, 230);
+        color: rgb(209, 87, 0);
+        height: 40px;
+        padding: 8px 20px;
+        font-size: 16px;
+        line-height: 24px;
+        outline: none;
+        border: none;
+        border-radius: 9999px;
+        text-align: center;
+        font-weight: 500;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        user-select: none;
+        transition-property: background-color, color;
+        transition-duration: 200ms;
+        transition-timing-function: ease-out;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        vertical-align: top;
+        text-decoration: none;
+        > span {
+            width: auto;
+            margin: 0 auto;
+            &:before {
+                animation: bounce 2s;
+                position: absolute;
+                left: -3rem;
+                top: 0;
+                font-weight: 700;
+                font-size: 14px;
+                content: "\f107";
+                font-family: "Flaticon";
+                color: rgb(209, 87, 0);
+                animation-name: bounce-4;
+                animation-timing-function: ease;
+                transform-origin: bottom;
+                animation-duration: 2s;
+                animation-iteration-count: infinite;
+
+            }
+            @keyframes bounce-4 {
+                0%   { transform: scale(1,1)    translateY(0); }
+                10%  { transform: scale(1.1,.9) translateY(0); }
+                30%  { transform: scale(.9,1.1) translateY(-10px); }
+                50%  { transform: scale(1,1)    translateY(0); }
+                100% { transform: scale(1,1)    translateY(0); }
+            }
+        }
+        &:hover {
+            background-color: rgb(255, 210, 179);
+        }
+    }
+    &-ExpandableContentContent {
+        @include after-mobile {
+            display: none;
+        }
+
+        &_isContentExpanded {
+            @include after-mobile {
+                display: block;
+                position: fixed;
+                height: auto;
+                top: 50%;
+                left: 50%;
+                z-index: 10;
+                transform: translate(-50%,-50%);
+                width: auto;
+                min-width: 50rem;
+                padding: 4rem;
+                background: #fff;
+                border-radius: 10px;
+                border: 1px solid var(--button-border);
+                box-shadow: 0px 0px 7px 1px #c0c0c066;
+            }
+
+            @include before-desktop {
+                padding: 0 1.2rem 1.2rem;
+            }
+
+            @include mobile {
+                padding: 0 1.4rem 1.4rem;
+            }
+
+            .Field {
+                &:first-child {
+                    margin-top: 0;
+                }
+            }
+            .modalSimulate-Title {
+                display: none;
+            }
+        }
+        .modalSimulateClose-Button {
+            display: block;
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            font-size: 0;
+            width: 2rem;
+            height: 2rem;
+
+            &:after, &:before{
+                height: 2rem;
+                left: unset;
+                content: '';
+                position: absolute;
+                width: .1rem;
+                transform-origin: 50% 50%;
+                top: 0;
+                background-color: var(--header-color);
+            }
+            &:after {
+                transform: rotate(45deg);
+            }
+            &:before {
+                transform: rotate(-45deg);
+            }
+        }
+        .modalSimulate-Title {
+            display: block;
+            text-align:center;
+            padding-bottom: 2rem;
+        }
+    }
+
+    &-ExpandableContentHeading {
+        @include desktop {
+            font-weight: normal;
+        }
+
+        .ExpandableContent-HeadingAdditional {
+            font-weight: bold;
+        }
+    }
+}
+.CheckoutOrderSummary {
+    $divider-border-color: #e0e0e0;
+    $divider-border: solid 1px $divider-border-color;
+
+    &-Header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    &-ItemsInCart {
+        font-size: 1.2rem;
+        opacity: .5;
+        text-transform: none;
+        top: 2px;
+        font-weight: 300;
+    }
+
+    &-SummaryItem {
+        justify-content: space-between;
+        display: flex;
+        padding: 1.2rem 0;
+        margin-bottom: 0;
+
+        @include mobile {
+            padding: 1.4rem 0;
+        }
+
+        &:last-child {
+            margin-bottom: 0;
+        }
+
+        &::before {
+            content: none;
+        }
+
+        &_withAppendedContent {
+            flex-wrap: wrap;
+        }
+    }
+
+    &-OrderItems {
+        @include mobile {
+            background-color: var(--secondary-base-color);
+        }
+
+        h3 {
+            text-align: left;
+        }
+    }
+
+    &-CartItemList {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+
+        @include mobile {
+            --cart-item-background: var(--secondary-base-color);
+            --cart-item-divider-color: $divider-border-color;
+        }
+    }
+
+    &-CartItemDescription {
+        margin-top: 5px;
+
+        p {
+            font-size: 1.32rem;
+            line-height: 1.5;
+
+            @include mobile {
+                font-size: 1.54rem;
+            }
+        }
+    }
+
+    &-CartItem {
+        display: grid;
+        grid-template-columns: 9.6rem auto auto;
+        grid-column-gap: .6rem;
+        margin: 0 0 .6rem;
+        padding: 0;
+
+        @include mobile {
+            grid-template-columns: 11.2rem auto auto;
+            grid-column-gap: .7rem;
+            margin: 0 0 .7rem;
+        }
+
+        &::before {
+            content: none;
+        }
+
+        > * {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+    }
+
+    &-Thumbnail {
+        width: 9.6rem;
+        height: 9.6rem;
+
+        @include mobile {
+            width: 11.2rem;
+            height: 11.2rem;
+        }
+    }
+
+    &-Title {
+        p {
+            margin: 0;
+            padding: 0;
+            text-align: left;
+        }
+    }
+
+    &-Details {
+        justify-self: end;
+    }
+
+    &-ExpandableContent {
+        margin: 0 -1.4rem;
+        background-color: var(--secondary-base-color);
+    }
+
+    &-Coupon {
+        @include mobile {
+            padding: 10px 1.4rem;
+            border-bottom: $divider-border;
+            margin: 0 -1.4rem;
+            width: auto;
+        }
+    }
+
+    &-CmsBlock {
+        padding: 10px 0;
+        border-bottom: $divider-border;
+    }
+
+    .ProductPrice {
+        margin-top: 0;
+        font-weight: bold;
+        line-height: 1;
+        font-size: 1.4rem;
+
+        &-SubPrice {
+            display: block;
+            font-size: .7em;
+            font-weight: 300;
+        }
+    }
+
+    .CartItem-Wrapper {
+        padding: 1.2rem 0;
+
+        @include mobile {
+            padding: 1.4rem 0;
+        }
+    }
+
+    &-Text {
+        text-align: right;
+
+        span {
+            display: block;
+            font-size: .7em;
+            font-weight: 300;
+        }
+    }
+
+    &-AppendedContent {
+        flex-basis: 100%;
+    }
+}
