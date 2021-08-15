@@ -8,18 +8,18 @@
  * @package scandipwa/base-theme
  * @link https://github.com/scandipwa/base-theme
  */
- import PropTypes from 'prop-types';
  import { PureComponent } from 'react';
  import { connect } from 'react-redux';
  import { fetchQuery, fetchMutation } from 'Util/Request';
  import { showNotification } from 'Store/Notification/Notification.action';
 
  import CheckoutCustomField from './CheckoutCustomField.component';
- import { SET_CHECKOUT_FIELDS } from '@bss/checkout-fields/src/util/Event/Events'
+ import { SET_CHECKOUT_FIELDS, SET_CHECKOUT_FIELDS_VALIDATION } from '@bss/checkout-fields/src/util/Event/Events'
  import CheckoutCustomFieldQuery from '@bss/checkout-fields/src/query/CheckoutCustomField.query';
  import Loader from 'Component/Loader';
  import { isSignedIn } from 'Util/Auth';
  import { getGuestQuoteId } from 'Util/Cart';
+ import moment from 'moment';
 
 /** @namespace Component/CheckoutCustomField/Container/mapStateToProps */
 export const mapStateToProps = (state) => ({
@@ -34,15 +34,20 @@ export const mapDispatchToProps = (dispatch) => ({
 export class CheckoutCustomFieldContainer extends PureComponent {
 
     __construct(props) {
-        console.log('__construct')
         super.__construct(props);
         this.state ={
             isLoading: true,
             company: "",
             orderComment: "",
-            orderDate: new Date(),
+            minDate: this.getTime(moment()),
+            orderDate: this.getTime(moment()),
             orderTimeOptions: [],
-            selectedOrderTime: ''
+            selectedOrderTime: -1,
+
+            companyError: "",
+            orderCommentError: "",
+            selectedOrderTimeError: ""
+
         }
     }
 
@@ -55,60 +60,64 @@ export class CheckoutCustomFieldContainer extends PureComponent {
 
     async componentDidMount() {
         let that = this
-        console.log('componentDidMount')
         await this.getAvailabelOrdertimeOptions()
         await this.selectDefaultOrdertimeOption()
         window.addEventListener(SET_CHECKOUT_FIELDS, function(event){
-            console.log('addEventListener')
             that.updateCustomCheckoutFields()
         });
     }
 
     setOrdertime(value) {
+        this.setState({selectedOrderTimeError: ""})
+        if(parseInt(value) < 0){
+            this.setState({selectedOrderTimeError: __("This field is required.")})
+        }
         this.setState({selectedOrderTime: parseInt(value)})
     }
     setCompany(value) {
+        this.setState({companyError: ""})
+        if(value==""){
+            this.setState({companyError: __("This field is required.")})
+        }
         this.setState({company: value})
     }
     setOrderComment(value) {
+        this.setState({orderCommentError: ""})
+        if(value==""){
+            this.setState({orderCommentError: __("This field is required.")})
+        }
         this.setState({orderComment: value})
     }
-    setOrderDate(value) {
-        console.log(value)
-        this.setState({orderDate: value})
-        this.getAvailabelOrdertimeOptions()
+    async setOrderDate(value) {
+        await this.setState({orderDate: this.getTime(value)})
+        await this.getAvailabelOrdertimeOptions()
+        await this.selectDefaultOrdertimeOption()
     }
 
     optionsFormatOrdertime(options) {
         let array = []
         options.forEach(function(option){
             array.push({
-                id: parseInt(option.value_id),
-                name: option.value,
-                value: parseInt(option.value_id),
-                label: option.value,
+                id: parseInt(option.value),
+                name: option.label,
+                value: parseInt(option.value),
+                label: option.label,
                 is_dafault: option.is_default
             })
         })
         this.setState({orderTimeOptions:array})
     }
 
-    async getAvailabelOrdertimeOptions(date) {
-        
-        console.log('getAvailabelOrdertimeOptions')
+    async getAvailabelOrdertimeOptions() {
         const {showNotification}= this.props
         const {orderDate}= this.state
         let that = this
         this.setState({isLoading: true})
 
-        console.log(orderDate)
-
         await fetchQuery(CheckoutCustomFieldQuery.getOrderTimeBssCheckoutCustomField(
             orderDate
         )).then(
             (result) => {
-                console.log('result')
-                console.log(result)
                 if(result.getOrderTimeBssCheckoutCustomField.length > 0){
                     that.optionsFormatOrdertime(result.getOrderTimeBssCheckoutCustomField)
                     that.setState({isLoading: false})
@@ -119,12 +128,12 @@ export class CheckoutCustomFieldContainer extends PureComponent {
             },
             (error) =>{
                 that.setState({orderTimeOptions: [], isLoading: false})
-                dispatch(showNotification('error', error[0].message))
+                showNotification('error', error[0].message)
             }
         );
     }
 
-    selectDefaultOrdertimeOption() {
+    async selectDefaultOrdertimeOption() {
         let that = this
         const {orderTimeOptions} = this.state
         if(orderTimeOptions.length > 0){
@@ -132,52 +141,76 @@ export class CheckoutCustomFieldContainer extends PureComponent {
             orderTimeOptions.forEach(function(option){
                 if(option.is_dafault) {
                     isDefaultSet = true
-                    that.setState({selectedOrderTime: option.value})
+                    that.setState({selectedOrderTime: parseInt(option.value)})
                 }
             })
 
             if(!isDefaultSet) {
-                that.setState({selectedOrderTime: orderTimeOptions[0].value})
+                that.setState({selectedOrderTime: parseInt(orderTimeOptions[0].value)})
             }
+        }else{
+            const {orderDate}=this.state
+            await this.setState({orderDate: this.getTime(moment(orderDate, 'YYYY-MM-DD').add('days', 1))})
+            await this.setState({minDate: this.getTime(moment(orderDate, 'YYYY-MM-DD').add('days', 1))})
+            await this.getAvailabelOrdertimeOptions()
+            await this.selectDefaultOrdertimeOption()
         }
     }
 
     async updateCustomCheckoutFields() {
-        console.log('updateCustomCheckoutFields')
-        this.setState({isLoading: true})
-        const {
-            company,
-            orderComment,
-            orderDate,
-            selectedOrderTime
-        }= this.state
-        const params ={
-            cart_id: !isSignedIn() && getGuestQuoteId(),
-            company: company,
-            order_date: orderDate,
-            order_time: selectedOrderTime,
-            order_comment: orderComment
-        }
-        console.log('params')
-        await fetchMutation(CheckoutCustomFieldQuery.updateCustomCheckoutFields(
-            params
-        )).then(
-            (result) => {
-                this.setState({isLoading: false})
-            },
-            (error) =>{
-                dispatch(showNotification('error', error[0].message))
-                this.setState({isLoading: false})
+        let validationResponse = this.checkValidation();
+        const {showNotification}=this.props
+        if(validationResponse){
+            this.setState({isLoading: true})
+            const {
+                company,
+                orderComment,
+                orderDate,
+                selectedOrderTime
+            }= this.state
+            const params ={
+                cart_id: !isSignedIn() && getGuestQuoteId(),
+                company: company,
+                order_date: moment(orderDate).format('MM/DD/YYYY'),
+                order_time: selectedOrderTime,
+                order_comment: orderComment
             }
-        )
+            await fetchMutation(CheckoutCustomFieldQuery.updateCustomCheckoutFields(
+                params
+            )).then(
+                (result) => {
+                    this.setState({isLoading: false})
+                },
+                (error) =>{
+                    showNotification('error', error[0].message)
+                    this.setState({isLoading: false})
+                }
+            )
+        }
+
+        await window.dispatchEvent(new CustomEvent(SET_CHECKOUT_FIELDS_VALIDATION, {detail: validationResponse}));
+    }
+
+    checkValidation() {
+        let response = true
+        this.setState({companyError: "", orderCommentError: "", selectedOrderTimeError: ""})
+        const { company, orderComment, selectedOrderTime } = this.state
+
+        if(company=="") { response = false;  this.setState({companyError: __("This field is required.")})}
+        if(orderComment=="") { response = false; this.setState({orderCommentError: __("This field is required.")}) }
+        if(parseInt(selectedOrderTime) < 0) { response = false;this.setState({selectedOrderTimeError: __("This field is required.")}) }
+
+        return response
+    }
+
+    getTime(date, format = 'YYYYMMDD') {
+        return moment(date).format(format)
     }
 
     
 
     render() {
         const {isLoading}=this.state
-        console.log('render')
-        console.log(this.state)
         return (
             <>
                 <Loader isLoading={ isLoading } />
