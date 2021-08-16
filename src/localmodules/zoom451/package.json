@@ -50,5 +50,5 @@
     "eslintConfig": {
         "extends": "@scandipwa"
     },
-    "proxy": "https://brasov.magstart.ro/"
+    "proxy": "https://coresi-brasov.magstart.ro/"
 }
