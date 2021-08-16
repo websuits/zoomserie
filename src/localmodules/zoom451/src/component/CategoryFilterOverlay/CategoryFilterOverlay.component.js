@@ -174,15 +174,12 @@ export class CategoryFilterOverlayComponent extends SrcCategoryFilterOverlay {
             totalPages,
             isProductsLoading,
             isContentFiltered,
-            isCategoryAnchor,
-            areFiltersEmpty
+            isCategoryAnchor
         } = this.props;
 
-        if ((!isProductsLoading && totalPages === 0 && !isContentFiltered) || !isCategoryAnchor || areFiltersEmpty) {
+        if ((!isProductsLoading && totalPages === 0 && !isContentFiltered) || !isCategoryAnchor) {
             return (
-                <div block="CategoryFilterOverlay">
-                    { __('No filters for this category') }
-                </div>
+                <div block="CategoryFilterOverlay" />
             );
         }
 
