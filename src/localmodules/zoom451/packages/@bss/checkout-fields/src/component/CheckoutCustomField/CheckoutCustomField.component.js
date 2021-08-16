@@ -18,7 +18,7 @@ export class CheckoutCustomFieldComponent extends PureComponent {
     };
 
     renderCompanyField() {
-        // eslint-disable-next-line react/prop-types
+        // eslint-disable-next-line react/prop-types,no-unused-vars
         const { company, setCompany, companyError } = this.props;
         return (
             <>
@@ -29,11 +29,10 @@ export class CheckoutCustomFieldComponent extends PureComponent {
               name="company"
               value={ company }
               onChange={ setCompany }
-                // validation={ ['notEmpty'] }
-              validateSeparately
+              // validation={ ['notEmpty'] }
+              // validateSeparately
             />
-            { companyError !== ''
-                && <p block="Field" elem="Message">{ companyError }</p> }
+            { /* companyError !== '' && <p block="Field" elem="Message">{ companyError }</p> */ }
             </>
         );
     }
@@ -51,10 +50,9 @@ export class CheckoutCustomFieldComponent extends PureComponent {
               // validation={ ['notEmpty'] }
               value={ orderComment }
               onChange={ setOrderComment }
-              validateSeparately
+              // validateSeparately
             />
-            { orderCommentError !== ''
-                && <p block="Field" elem="Message">{ orderCommentError }</p> }
+             { /* orderCommentError !== '' && <p block="Field" elem="Message">{ orderCommentError }</p> */ }
             </>
         );
     }
