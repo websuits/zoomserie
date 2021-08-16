@@ -356,7 +356,7 @@ export class HeaderContainer extends SrcHeaderContainer {
         }
 
         if (!isSignedIn && !isSignedInWithToken()) {
-            history.push({ pathname: appendWithStoreCode('/customer/account/create') });
+            history.push({ pathname: appendWithStoreCode('/customer/account/login') });
         }
     }
 
