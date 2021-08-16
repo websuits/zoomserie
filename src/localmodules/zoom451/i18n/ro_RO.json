@@ -447,12 +447,11 @@
     "Order Comment": "Comentarii comanda",
     "Order Time": "Ora livrare",
     "Delivery Date": "Ziua livrare",
-    "Order Date": null,
+    "Order Date": "Ziua livrare",
     "This field is required.": null,
     "Special Orders": "Comenzi Speciale",
     "Jump to first slide": "Înapoi la prima categorie",
     "Reset choices": "Resetează alegerile efectuate",
     "No filters for this category": "Nu există filtre pentru această categorie",
-    "pula2": null,
     "From": null
 }
