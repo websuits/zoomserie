@@ -48,7 +48,7 @@ export class CheckoutCustomFieldComponent extends PureComponent {
               label={ __('Order Comment') }
               id="order-comment"
               name="order_comment"
-              validation={ ['notEmpty'] }
+              // validation={ ['notEmpty'] }
               value={ orderComment }
               onChange={ setOrderComment }
               validateSeparately
