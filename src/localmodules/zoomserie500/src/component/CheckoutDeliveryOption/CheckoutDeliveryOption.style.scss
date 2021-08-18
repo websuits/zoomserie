@@ -11,8 +11,17 @@
     align-items: center;
     border-top: 1px solid var(--checkout-delivery-option-border-color);
 
-    &-Row>strong {
-        display: block;
+    &-Row {
+        >strong {
+            padding-left: .5rem
+        }
+        span {
+            &:nth-child(3) {
+                strong {
+                    padding-left: .5rem;
+                }
+            }
+        }
     }
 
     &::before {
