@@ -14,8 +14,6 @@ import Html from 'Component/Html';
 import Image from 'Component/Image';
 import { SliderWidget as SrcSliderWidget } from 'SourceComponent/SliderWidget/SliderWidget.component';
 
-import 'swiper/swiper-bundle.css';
-
 // install Swiper modules
 SwiperCore.use([Pagination]);
 SwiperCore.use([Navigation]);

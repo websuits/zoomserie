@@ -52,17 +52,11 @@
     width: 100%;
     overflow: hidden;
 }
-.swiper-slide {
-    height: 300px;
-    line-height: 300px;
-    text-align: left;
-}
 
 .swiper-wrapper {
     justify-content: flex-start;
     flex-direction: row;
 }
-
 
 .swiper-slide img {
     display: block;
