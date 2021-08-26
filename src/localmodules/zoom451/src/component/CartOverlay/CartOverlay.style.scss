@@ -5,6 +5,11 @@
     --cart-overlay-width: 400px;
 }
 
+.MinOrder-Message {
+    flex-grow: 1;
+    text-align: center;
+}
+
 .CartOverlay {
     @include after-mobile {
         position: absolute;
