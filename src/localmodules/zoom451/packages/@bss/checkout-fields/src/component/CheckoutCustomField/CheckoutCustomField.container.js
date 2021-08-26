@@ -153,7 +153,8 @@ export class CheckoutCustomFieldContainer extends PureComponent {
     }
 
     async updateCustomCheckoutFields() {
-        const validationResponse = this.checkValidation();
+        // const validationResponse = this.checkValidation();
+        const validationResponse = true;
         const { showNotification } = this.props;
         if (validationResponse) {
             this.setState({ isLoading: true });

@@ -29,7 +29,6 @@ export class ProductConfigurableAttributeDropdownContainer extends PureComponent
         } = this.props;
 
         if (attribute_code === 'z20_unitate') {
-            this.props.option.attribute_value = this.props.option.attribute_values[0];
             updateConfigurableVariant('z20_unitate', this.props.option.attribute_values[0]);
         }
     }
