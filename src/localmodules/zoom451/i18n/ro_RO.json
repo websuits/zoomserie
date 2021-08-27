@@ -453,8 +453,5 @@
     "Reset choices": "Resetează alegerile efectuate",
     "No filters for this category": "Nu există filtre pentru această categorie",
     "From": "De la",
-    "Comanda minima este de 80 lei.": null,
-    "Comanda minima este de 80 lei. Pentru a putea plasa o comanda adauga in cos si alte produse.": null,
-    "Comanda minima este de 80 lei. Adauga si alte produse pentru a putea continua.": null,
-    "Comanda minima de 80 lei.": null
+    "Minimum order amount is 80 RON": "Comanda minimă este de 80 RON"
 }
