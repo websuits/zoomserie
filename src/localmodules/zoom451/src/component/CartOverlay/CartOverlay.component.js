@@ -240,7 +240,7 @@ export class CartOverlayComponent extends SrcCartOverlay {
                       className="MinOrder-Message"
                     >
                         { /* eslint-disable-next-line max-len */ }
-                        { __('Comanda minima este de 80 lei.') }
+                        { __('Minimum order amount is 80 RON') }
                     </strong>
                 </>
             );

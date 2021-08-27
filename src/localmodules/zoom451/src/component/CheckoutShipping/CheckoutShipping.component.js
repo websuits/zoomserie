@@ -106,7 +106,7 @@ export class CheckoutShippingComponent extends SrcCheckoutShipping {
                     <strong
                       className="MinOrder-Message"
                     >
-                        { __('Comanda minima este de 80 lei.') }
+                        { __('Minimum order amount is 80 RON') }
                     </strong>
                 </>
             );
